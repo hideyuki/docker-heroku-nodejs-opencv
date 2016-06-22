@@ -1,5 +1,5 @@
 # Inherit from Heroku's stack
-FROM heroku/nodejs
+FROM heroku/python
 
 # Which version of node?
 ENV NODE_ENGINE 4.1.1
