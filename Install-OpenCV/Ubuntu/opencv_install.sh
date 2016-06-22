@@ -38,9 +38,15 @@ fi
 cd opencv-$version
 mkdir build
 cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/app/.heroku/opencv -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D WITH_OPENGL=ON -D WITH_1394=OFF -D WITH_GSTREAMER=OFF -D WITH_FFMPEG=OFF ..
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/app/.heroku/opencv -D WITH_V4L=ON -D WITH_OPENGL=ON -D WITH_1394=OFF -D WITH_GSTREAMER=OFF -D WITH_FFMPEG=OFF ..
 make -j 4
 make install
 sh -c 'echo "/app/.heroku/opencv/lib" > /etc/ld.so.conf.d/opencv.conf'
 ldconfig
 echo "OpenCV" $version "ready to be used"
+cd ../..
+rm -rf $dldir
+
+# Remove apt-get files
+rm -rf /var/lib/apt/lists/*
+#apt-get purge -y --auto-remove cmake checkinstall build-essential
