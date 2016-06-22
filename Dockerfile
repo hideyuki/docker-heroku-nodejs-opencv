@@ -13,13 +13,13 @@ WORKDIR /app/user
 # Install leptonica for tesseract
 RUN mkdir ~/temp &&\ 
     cd ~/temp/ &&\ 
-    wget http://www.leptonica.org/source/leptonica-1.69.tar.gz &&\ 
-    tar xvf leptonica-1.69.tar.gz &&\ 
-    cd leptonica-1.69 &&\ 
+    wget http://www.leptonica.org/source/leptonica-1.73.tar.gz &&\ 
+    tar xvf leptonica-1.73.tar.gz &&\ 
+    cd leptonica-1.73 &&\ 
     ./configure &&\ 
     make &&\ 
     checkinstall &&\ 
-    ldconfig
+    ldconfig &&\
     rm -rf ~/temp
 
 # Install tesseract
