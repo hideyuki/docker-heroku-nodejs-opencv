@@ -1,5 +1,5 @@
 # Inherit from Heroku's stack
-FROM heroku/python
+FROM heroku/nodejs
 
 # Which version of node?
 ENV NODE_ENGINE 4.1.1
@@ -25,6 +25,39 @@ RUN echo "export PATH=\"/app/heroku/node/bin:/app/user/node_modules/.bin:\$PATH\
 RUN echo "export PKG_CONFIG_PATH=\"/app/.heroku/opencv/lib/pkgconfig\"" >> /app/.profile.d/nodejs.sh
 RUN echo "export LD_LIBRARY_PATH=\"/app/.heroku/opencv/lib/:$LD_LIBRARY_PATH\"" >> /app/.profile.d/nodejs.sh
 
+# Install leptonica for tesseract
+RUN mkdir ~/temp &&\ 
+    cd ~/temp/ &&\ 
+    wget http://www.leptonica.org/source/leptonica-1.69.tar.gz &&\ 
+    tar -zxvf leptonica-1.69.tar.gz &&\ 
+    cd leptonica-1.69 &&\ 
+    ./configure &&\ 
+    make &&\ 
+    checkinstall &&\ 
+    ldconfig
+
+# Install tesseract
+RUN cd ~/temp/ &&\ 
+    wget https://tesseract-ocr.googlecode.com/files/tesseract-ocr-3.02.02.tar.gz &&\ 
+    tar xvf tesseract-ocr-3.02.02.tar.gz &&\ 
+    cd tesseract-ocr &&\ 
+    ./autogen.sh &&\ 
+    mkdir ~/local &&\ 
+    ./configure --prefix=$HOME/local/ &&\ 
+    make &&\ 
+    make install &&\ 
+    cd ~/ &&\ 
+    rm -rf ~/temp
+
+# Add tesseact eng data
+RUN cd ~/local/share &&\ 
+    wget https://tesseract-ocr.googlecode.com/files/tesseract-ocr-3.02.eng.tar.gz &&\ 
+    tar xvf tesseract-ocr-3.02.eng.tar.gz
+
+ENV PATH $PATH:/root/local/bin
+ENV TESSDATA_PREFIX=/root/local/share/tesseract-ocr/
+
 ONBUILD ADD package.json /app/user/
 ONBUILD RUN /app/heroku/node/bin/npm install
 ONBUILD ADD . /app/user/
+
