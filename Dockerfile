@@ -35,9 +35,11 @@ RUN mkdir ~/temp &&\
     make &&\ 
     checkinstall &&\ 
     ldconfig
+    rm -rf ~/temp
 
 # Install tesseract
-RUN cd ~/temp/ &&\ 
+RUN mkdir ~/temp &&\
+    cd ~/temp/ &&\ 
     wget https://tesseract-ocr.googlecode.com/files/tesseract-ocr-3.02.02.tar.gz &&\ 
     tar xvf tesseract-ocr-3.02.02.tar.gz &&\ 
     cd tesseract-ocr &&\ 
@@ -52,7 +54,8 @@ RUN cd ~/temp/ &&\
 # Add tesseact eng data
 RUN cd ~/local/share &&\ 
     wget https://tesseract-ocr.googlecode.com/files/tesseract-ocr-3.02.eng.tar.gz &&\ 
-    tar xvf tesseract-ocr-3.02.eng.tar.gz
+    tar xvf tesseract-ocr-3.02.eng.tar.gz &&\
+    rm -rf tesseract-ocr-3.02.eng.tar.gz
 
 ENV PATH $PATH:/root/local/bin
 ENV TESSDATA_PREFIX=/root/local/share/tesseract-ocr/
