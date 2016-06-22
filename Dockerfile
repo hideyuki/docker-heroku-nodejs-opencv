@@ -44,8 +44,9 @@ RUN cd ~/local/share &&\
     cp tessdata-3.04.00/eng* tesseract-ocr/ &&\
     rm -rf 3.04.00.tar.gz tessdata-3.04.00
 
+ENV PKG_CONFIG_PATH $PKG_CONFIG_PATH:/app/.heroku/opencv/lib/pkgconfig
 ENV PATH $PATH:/root/local/bin
-ENV TESSDATA_PREFIX=/root/local/share/tesseract-ocr/
+ENV TESSDATA_PREFIX /root/local/share/tesseract-ocr/
 
 ONBUILD ADD package.json /app/user/
 ONBUILD RUN npm install
