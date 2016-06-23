@@ -19,3 +19,10 @@ $ docker pull hideyuki/docker-heroku-nodejs-opencv-tesseract
 ### References
 - [guitarmind/tesseract-web-service](https://github.com/guitarmind/tesseract-web-service)
 - [pastak/docker-heroku-nodejs-opencv](https://github.com/pastak/docker-heroku-nodejs-opencv)
+
+## Deploy
+
+```
+$ docker build --tag=hideyuki/docker-heroku-nodejs-opencv-tesseract .
+$ docker push hideyuki/docker-heroku-nodejs-opencv-tesseract
+```
