@@ -40,8 +40,8 @@ RUN mkdir ~/temp &&\
 RUN cd ~/local/share &&\ 
     wget https://github.com/tesseract-ocr/tessdata/archive/3.04.00.tar.gz &&\ 
     tar xvf 3.04.00.tar.gz &&\
-    mkdir tesseract-ocr &&\
-    cp tessdata-3.04.00/eng* tesseract-ocr/ &&\
+    mkdir -p tesseract-ocr/tessdata &&\
+    cp tessdata-3.04.00/eng* tesseract-ocr/tessdata/ &&\
     rm -rf 3.04.00.tar.gz tessdata-3.04.00
 
 ENV PKG_CONFIG_PATH $PKG_CONFIG_PATH:/app/.heroku/opencv/lib/pkgconfig
